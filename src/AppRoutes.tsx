@@ -1,13 +1,13 @@
-import {BetHistory} from "./components/BetHistory";
-import { HomePage } from "./pages/HomePage";
+import { BetHistory } from "./components/BetHistory";
+import AuctioneList from "./pages/AuctioneList";
 
 export const AppRoutes = [
-    {
-        index: true,
-        element: <HomePage/>
-    },
-    {
-        path: '/bethistory',
-        element: <BetHistory/>
-    }
-]
+  {
+    index: true,
+    element: <AuctioneList />,
+  },
+  {
+    path: "/bethistory",
+    element: <BetHistory />,
+  },
+];
