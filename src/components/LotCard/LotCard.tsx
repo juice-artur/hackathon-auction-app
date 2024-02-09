@@ -5,35 +5,24 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
-interface CardProps {
-  imageUrl: string;
-  title: string;
-  description: string;
-  onClick: () => void; //change the page to a detailed description of the lot
-}
 
-const LotCard: React.FC<CardProps> = ({
-  imageUrl,
-  title,
-  description,
-  onClick,
-}) => {
+const LotCard: React.FC<AuctionItem> = (item) => {
   return (
-    <Card sx={{ maxWidth: 250 }} onClick={onClick}>
+    <Card sx={{ maxWidth: 250 }} onClick={()=> {}}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
           width="auto"
-          image={imageUrl}
-          alt={title}
+          image="https://placekitten.com/800/400"
+          alt={item.name}
         />
         <CardContent>
           <Typography variant="h6" component="div">
-            {title}
+            {item.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {description}
+            {item.description}
           </Typography>
         </CardContent>
       </CardActionArea>
