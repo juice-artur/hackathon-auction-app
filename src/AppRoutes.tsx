@@ -8,7 +8,7 @@ export const AppRoutes = [
     element: <AuctioneList />,
   },
   {
-    path: "/auction-list",
+    path: "/auction-info/:id",
     element: <AuctionInfo />,
   },
   {
