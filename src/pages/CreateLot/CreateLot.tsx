@@ -7,52 +7,46 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
 const CreateLot = () => {
-  const [isTitleValid, setTitleValid] = useState(true);
-  const [isDescriptionValid, setDescriptionValid] = useState(true);
-  const [isPriceValid, setPriceValid] = useState(true);
-  const [isImageUrlValid, setImageUrlValid] = useState(true);
-  const [imageUrlPreview, setImageUrlPreview] = useState<string | null>(null);
+  const [lotData, setLotData] = useState({
+    title: "",
+    description: "",
+    startPrice: "",
+    imageUrl: "",
+  });
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const [errors, setErrors] = useState({
+    title: false,
+    description: false,
+    startPrice: false,
+    imageUrl: false,
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setLotData({
+      ...lotData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (
-      !isTitleValid ||
-      !isDescriptionValid ||
-      !isPriceValid ||
-      !isImageUrlValid
-    ) {
+    const newErrors = {
+      title: !lotData.title,
+      description: !lotData.description,
+      startPrice: isNaN(parseFloat(lotData.startPrice)) || parseFloat(lotData.startPrice) < 1,
+      imageUrl: !lotData.imageUrl,
+    };
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((error) => error)) {
       alert("Please fill in all required fields correctly");
       return;
     }
-  };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleValid(!!event.target.value);
-  };
-
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setDescriptionValid(!!event.target.value);
-  };
-
-  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const priceValue = parseFloat(event.target.value);
-
-    if (isNaN(priceValue) || priceValue < 1) {
-      setPriceValid(false);
-      return;
-    }
-
-    setPriceValid(true);
-    event.target.value = priceValue.toString();
-  };
-
-  const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const imageUrl = event.target.value;
-    setImageUrlPreview(imageUrl);
-    setImageUrlValid(!!imageUrl);
+    // Send data to the backend or perform other actions
   };
 
   return (
@@ -61,40 +55,46 @@ const CreateLot = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ minHeight: "100%", marginTop: "20px" }}>
+        style={{ minHeight: "100%", marginTop: "20px" }}
+      >
         <Grid item xs={12} sm={8} md={6}>
           <Paper elevation={3} style={{ padding: "20px" }}>
             <Typography variant="h4" align="center" gutterBottom>
               Create a New Lot
             </Typography>
             <form onSubmit={handleSubmit}>
-              {imageUrlPreview && (
+              {lotData.imageUrl && (
                 <img
-                  src={imageUrlPreview}
+                  src={lotData.imageUrl}
                   alt="Preview"
                   style={{ width: "100%", marginTop: "10px" }}
                 />
               )}
               <TextField
+                name="imageUrl"
                 label="Image URL"
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 required
-                onChange={handleImageUrlChange}
-                error={!isImageUrlValid}
+                value={lotData.imageUrl}
+                onChange={handleInputChange}
+                error={errors.imageUrl}
               />
 
               <TextField
+                name="title"
                 label="Title"
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 required
-                onChange={handleTitleChange}
-                error={!isTitleValid}
+                value={lotData.title}
+                onChange={handleInputChange}
+                error={errors.title}
               />
               <TextField
+                name="description"
                 label="Description"
                 variant="outlined"
                 fullWidth
@@ -102,25 +102,24 @@ const CreateLot = () => {
                 multiline
                 rows={4}
                 required
-                onChange={handleDescriptionChange}
-                error={!isDescriptionValid}
+                value={lotData.description}
+                onChange={handleInputChange}
+                error={errors.description}
               />
               <TextField
+                name="startPrice"
                 label="Starting Price"
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 type="number"
                 required
-                onChange={handlePriceChange}
-                error={!isPriceValid}
+                value={lotData.startPrice}
+                onChange={handleInputChange}
+                error={errors.startPrice}
               />
 
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth>
+              <Button type="submit" variant="contained" color="primary" fullWidth>
                 Create Lot
               </Button>
             </form>
