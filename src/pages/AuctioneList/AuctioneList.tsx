@@ -30,7 +30,7 @@ const AuctioneList = () => {
   ];
 
   return (
-    <Box display="flex" flexWrap="wrap" gap={4} justifyContent="left">
+    <Box display="flex" flexWrap="wrap" gap={4} justifyContent="center" marginTop="20px">
       {lotCardData.map((data, index) => (
         <LotCard key={index} {...data} />
       ))}
