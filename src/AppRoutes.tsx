@@ -5,11 +5,11 @@ import AuctionInfo from "./pages/AuctionInfo";
 export const AppRoutes = [
   {
     index: true,
-    element: <AuctionInfo />,
+    element: <AuctioneList />,
   },
   {
     path: "/auction-list",
-    element: <AuctioneList />,
+    element: <AuctionInfo />,
   },
   {
     path: "/bethistory",
