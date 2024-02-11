@@ -1,46 +1,60 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+
+const cookies = new Cookies();
 
 const CreateLot = () => {
   const [lotData, setLotData] = useState({
-    title: "",
+    name: "",
     description: "",
     startPrice: "",
-    imageUrl: "",
+    photos: [""],
+    endDate: "",
   });
 
   const [errors, setErrors] = useState({
-    title: false,
+    name: false,
     description: false,
     startPrice: false,
     imageUrl: false,
+    endDate: false,
   });
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setLotData({
-      ...lotData,
-      [name]: value,
-    });
+
+    if (name === "photos") {
+      setLotData({
+        ...lotData,
+        [name]: [value],
+      });
+    } else {
+      setLotData({
+        ...lotData,
+        [name]: value,
+      });
+    }
   };
 
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newErrors = {
-      title: !lotData.title,
+      name: !lotData.name,
       description: !lotData.description,
       startPrice:
         isNaN(parseFloat(lotData.startPrice)) ||
         parseFloat(lotData.startPrice) < 1,
-      imageUrl: !lotData.imageUrl,
+      imageUrl: lotData.photos.length === 0 || !lotData.photos[0],
+      endDate: !lotData.endDate,
     };
 
     setErrors(newErrors);
@@ -50,7 +64,33 @@ const CreateLot = () => {
       return;
     }
 
-    // Send data to the backend or perform other actions
+    fetch("https://auction-api-hvbv.onrender.com/api/v1/auctions/create", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + cookies.get("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: lotData.name,
+        description: lotData.description,
+        startPrice: lotData.startPrice,
+        photos: lotData.photos,
+        endDate: lotData.endDate,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        navigate("/");
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -66,35 +106,36 @@ const CreateLot = () => {
               Create a New Lot
             </Typography>
             <form onSubmit={handleSubmit}>
-              {lotData.imageUrl && (
+              {lotData.photos[0] && (
                 <img
-                  src={lotData.imageUrl}
+                  src={lotData.photos[0]}
                   alt="Preview"
                   style={{ width: "100%", marginTop: "10px" }}
                 />
               )}
               <TextField
-                name="imageUrl"
-                label="Image URL"
+                name="photos"
+                label="Image URLs"
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                multiline
+                rows={4}
                 required
-                value={lotData.imageUrl}
+                value={lotData.photos.join("\n")}
                 onChange={handleInputChange}
                 error={errors.imageUrl}
               />
-
               <TextField
-                name="title"
-                label="Title"
+                name="name"
+                label="Name"
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 required
-                value={lotData.title}
+                value={lotData.name}
                 onChange={handleInputChange}
-                error={errors.title}
+                error={errors.name}
               />
               <TextField
                 name="description"
@@ -121,7 +162,17 @@ const CreateLot = () => {
                 onChange={handleInputChange}
                 error={errors.startPrice}
               />
-
+              <TextField
+                name="endDate"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                type="datetime-local"
+                required
+                value={lotData.endDate}
+                onChange={handleInputChange}
+                error={errors.endDate}
+              />
               <Button
                 type="submit"
                 variant="contained"
