@@ -1,4 +1,4 @@
-import { BetHistory } from "./components/BetHistory";
+// import { BetHistory } from "./components/BetHistory";
 import AuctioneList from "./pages/AuctioneList";
 import AuctionInfo from "./pages/AuctionInfo";
 import CreateLot from "./pages/CreateLot";
@@ -14,13 +14,13 @@ export const AppRoutes = [
     path: "/auction-info/:id",
     element: <AuctionInfo />,
   },
-  {
-    path: "/bethistory",
-    element: <BetHistory />,
-  },
+  // {
+  //   path: "/bethistory",
+  //   element: <BetHistory />,
+  // },
   {
     path: "/create-lot",
-    element: <CreateLot/>,
+    element: <CreateLot />,
   },
   {
     path: "login",
