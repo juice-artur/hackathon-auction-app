@@ -164,6 +164,7 @@ const CreateLot = () => {
               />
               <TextField
                 name="endDate"
+                label="End Date"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -172,7 +173,11 @@ const CreateLot = () => {
                 value={lotData.endDate}
                 onChange={handleInputChange}
                 error={errors.endDate}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
+
               <Button
                 type="submit"
                 variant="contained"
