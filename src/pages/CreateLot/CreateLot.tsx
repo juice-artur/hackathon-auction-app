@@ -21,7 +21,9 @@ const CreateLot = () => {
     imageUrl: false,
   });
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
     setLotData({
       ...lotData,
@@ -29,13 +31,15 @@ const CreateLot = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newErrors = {
       title: !lotData.title,
       description: !lotData.description,
-      startPrice: isNaN(parseFloat(lotData.startPrice)) || parseFloat(lotData.startPrice) < 1,
+      startPrice:
+        isNaN(parseFloat(lotData.startPrice)) ||
+        parseFloat(lotData.startPrice) < 1,
       imageUrl: !lotData.imageUrl,
     };
 
@@ -55,8 +59,7 @@ const CreateLot = () => {
         container
         justifyContent="center"
         alignItems="center"
-        style={{ minHeight: "100%", marginTop: "20px" }}
-      >
+        style={{ minHeight: "100%", marginTop: "20px" }}>
         <Grid item xs={12} sm={8} md={6}>
           <Paper elevation={3} style={{ padding: "20px" }}>
             <Typography variant="h4" align="center" gutterBottom>
@@ -119,7 +122,11 @@ const CreateLot = () => {
                 error={errors.startPrice}
               />
 
-              <Button type="submit" variant="contained" color="primary" fullWidth>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth>
                 Create Lot
               </Button>
             </form>
