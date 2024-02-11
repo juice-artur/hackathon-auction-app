@@ -2,6 +2,8 @@ import { BetHistory } from "./components/BetHistory";
 import AuctioneList from "./pages/AuctioneList";
 import AuctionInfo from "./pages/AuctionInfo";
 import CreateLot from "./pages/CreateLot";
+import {Login} from "./pages/Login";
+import {SignUp} from "./pages/SignUp";
 
 export const AppRoutes = [
   {
@@ -20,4 +22,12 @@ export const AppRoutes = [
     path: "/create-lot",
     element: <CreateLot/>,
   },
+  {
+    path: "login",
+    element: <Login/>,
+  },
+  {
+    path:"sign-up",
+    element: <SignUp/>
+  }
 ];
