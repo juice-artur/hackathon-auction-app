@@ -21,7 +21,7 @@ const CreateLot = () => {
     imageUrl: false,
   });
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
     setLotData({
       ...lotData,
@@ -29,7 +29,7 @@ const CreateLot = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
     const newErrors = {
