@@ -22,7 +22,6 @@ interface NavbarLink {
 const pages: NavbarLink[] = [
     {name: "Create Lot", path: "/create-lot"}
 ];
-const settings = ['Profile', 'Account', 'Dashboard'];
 
 const cookies = new Cookies();
 
@@ -193,14 +192,14 @@ function ResponsiveAppBar() {
                         ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{flexGrow: 0}}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="" />
+                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                <Avatar alt="Remy Sharp" src=""/>
                             </IconButton>
                         </Tooltip>
                         <Menu
-                            sx={{ mt: '45px' }}
+                            sx={{mt: '45px'}}
                             id="menu-appbar-user"
                             anchorEl={anchorElUser}
                             anchorOrigin={{
@@ -215,16 +214,9 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                            {
-                                <MenuItem onClick={handleLogout}>
-                                    <Typography textAlign="center">Logout</Typography>
-                                </MenuItem>
-                            }
+                            <MenuItem onClick={handleLogout}>
+                                <Typography textAlign="center">Logout</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
