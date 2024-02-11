@@ -6,17 +6,20 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-
 const LotCard: React.FC<AuctionItem> = (item) => {
   const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 250 }} onClick={()=> {navigate(`/auction-info/${item.id}`)}}>
+    <Card
+      sx={{ maxWidth: 250 }}
+      onClick={() => {
+        navigate(`/auction-info/${item.id}`);
+      }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
           width="auto"
-          image="https://placekitten.com/800/400"
+          image={item.photos[0]}
           alt={item.name}
         />
         <CardContent>
