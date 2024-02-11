@@ -2,6 +2,8 @@
 
 Welcome to the Auction Site project! This web application allows users to participate in auctions and view auction details using the Auction API.
 
+You can check out it here - https://hackathon-auction-app-wlrk.vercel.app
+
 ## Features
 
 - View ongoing auctions
