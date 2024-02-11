@@ -2,8 +2,8 @@
 import AuctioneList from "./pages/AuctioneList";
 import AuctionInfo from "./pages/AuctionInfo";
 import CreateLot from "./pages/CreateLot";
-import {Login} from "./pages/Login";
-import {SignUp} from "./pages/SignUp";
+import { Login } from "./pages/Login";
+import { SignUp } from "./pages/SignUp";
 
 export const AppRoutes = [
   {
@@ -24,10 +24,14 @@ export const AppRoutes = [
   },
   {
     path: "login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
-    path:"sign-up",
-    element: <SignUp/>
-  }
+    path: "sign-up",
+    element: <SignUp />,
+  },
+  {
+    path: "/edit-lot/:id",
+    element: <CreateLot isEdit />,
+  },
 ];
