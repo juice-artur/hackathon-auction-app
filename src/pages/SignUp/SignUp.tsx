@@ -6,11 +6,13 @@ export const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const role = "ROLE_USER";
   const handleSignUp = async () => {
     setLoading(true);
     setError("");
@@ -26,7 +28,14 @@ export const SignUp = () => {
         "https://auction-api-hvbv.onrender.com/api/v1/auth/sign-up",
         {
           method: "POST",
-          body: JSON.stringify({ firstName, lastName, email, password }),
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            password,
+            city,
+            role,
+          }),
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
@@ -89,6 +98,17 @@ export const SignUp = () => {
             autoComplete="family-name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="City"
+            label="City"
+            autoComplete="city"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
           />
           <TextField
             variant="outlined"
