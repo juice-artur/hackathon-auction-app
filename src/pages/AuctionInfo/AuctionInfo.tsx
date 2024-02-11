@@ -12,49 +12,57 @@ const AuctionInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Make two separate fetch requests
         const response1 = await fetch(
-          `https://auction-api-hvbv.onrender.com/api/v1/auctions/get-by-id?id=${id}`
+            `https://auction-api-hvbv.onrender.com/api/v1/auctions/get-by-id?id=${id}`
         );
         const response2 = await fetch(
-          `https://auction-api-hvbv.onrender.com/api/v1/bids?auctionId=${id}`
+            `https://auction-api-hvbv.onrender.com/api/v1/bids?auctionId=${id}`
         );
 
-        // Check if both responses are successful
         if (!response1.ok || !response2.ok) {
           throw new Error("Failed to fetch data");
         }
 
-        // Parse response data
         const data1 = await response1.json();
         const data2 = await response2.json();
 
-        // Update state variables
         setAuctionItem(data1);
         setBids(data2);
       } catch (error) {
-        // Handle errors
         console.error("Error fetching data:", error);
       }
     };
 
-    // Call the function to fetch data
     fetchData();
 
-    // Cleanup function (optional)
     return () => {
-      // Perform cleanup if necessary
     };
   }, []);
 
-  return (
-    <Container sx={{ maxWidth: "lg" }}>
-      <Paper elevation={3} sx={{ padding: "20px", marginTop: "20px" }}>
-        {auctionItem && <MainInformation {...auctionItem} />}
+  const refreshBids = () => {
+    fetch(`https://auction-api-hvbv.onrender.com/api/v1/bids?auctionId=${id}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((updatedData) => {
+          setBids(updatedData);
+        })
+        .catch((error) => {
+          console.error("Error fetching updated data:", error);
+        });
+  };
 
-        <BetHistory data={bids} />
-      </Paper>
-    </Container>
+  return (
+      <Container sx={{ maxWidth: "lg" }}>
+        <Paper elevation={3} sx={{ padding: "20px", marginTop: "20px" }}>
+          {auctionItem && <MainInformation {...auctionItem} />}
+
+          <BetHistory data={bids} id={id} refreshBids={refreshBids} />
+        </Paper>
+      </Container>
   );
 };
 
