@@ -2,6 +2,7 @@ interface ClientState {
     firstName: string;
     lastName: string;
     email: string;
+    city: string;
     id: string;
     token: string;
 }
@@ -9,6 +10,7 @@ interface ClientState {
 const defaultState: ClientState = {
     firstName: "",
     lastName: "",
+    city: "",
     email: "",
     id: "",
     token: "",
